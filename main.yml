@@ -1,0 +1,27 @@
+- hosts: all
+  tasks:
+    - name: install the latest version of Apache
+      yum:
+        name: httpd
+        state: latest
+    - name: Start service httpd, if not started
+      service:
+        name: httpd
+        state: started
+        enabled: yes   
+
+    - name: install unzip
+      yum:
+        name: unzip
+        state: latest
+ 
+    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      unarchive:
+        src: https://www.free-css.com/assets/files/free-css-templates/download/page280/justice.zip
+        dest: /var/www/html/
+        remote_src: yes
+    - name: Ansible copy index.html file into the html folder
+      copy:
+        src: /var/www/html/lawyer-website-template/.
+        dest: /var/www/html/
+        remote_src: yes         
